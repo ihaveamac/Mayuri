@@ -1,6 +1,6 @@
 # Mayuri
 
-Discord moderation bot!
+Discord moderation bot! And some other things...
 
 Some parts based on [Kurisu](https://github.com/916253/Kurisu).
 
