@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from time import tzname, localtime
 from . import msg_util
-# bot is imported here since ctx isn't always available
+# bot is imported here since ctx/bot isn't always available through other means
 from __main__ import logs, bot
 
 
@@ -41,7 +41,8 @@ async def log(type, *channels, action=None, action_message=None, ctx=None,
             if isinstance(target, discord.User):
                 msg += "|| " + format(msg_util.escape_markdown(target))
         if reason:
-            msg += "\n{0}__Reason__: {1}".format(msg_util.emoji('PENCIL'), reason)
+            msg += "\n{0}__Reason__: {1}".format(msg_util.emoji('PENCIL'),
+                                                 reason)
     bot.debug("Log message:\n  {}".format(msg.strip().replace('\n', '\n  ')))
     for channel in channels:
         await bot.send_message(channel, msg)

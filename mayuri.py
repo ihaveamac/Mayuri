@@ -72,18 +72,28 @@ bot.debug = debug
 # set bot permissions, for when it is invited to servers
 # you can also see them here if you want to see what is needed
 permissions = discord.Permissions()
-permissions.kick_members = True
-permissions.ban_members = True
-permissions.manage_channels = True
-# permissions.add_reactions = True
-permissions.read_messages = True
-permissions.send_messages = True
-permissions.manage_messages = True
-permissions.embed_links = True
-# permissions.attach_files = True
-permissions.read_message_history = True
-# permissions.change_nickname = True
-# permissions.manage_nicknames = True
+permissions.update(**{
+    'kick_members': True,
+    'ban_members': True,
+    # 'administrator': True,
+    'manage_channels': True,
+    # 'manage_server': True,
+    # 'add_reactions': True,
+    'read_messages': True,
+    'send_messages': True,
+    'manage_messages': True,
+    'embed_links': True,
+    # 'attach_files': True,
+    'read_message_history': True,
+    # 'mention_everyone': True,
+    # 'mute_members': True,
+    # 'deafen_members': True,
+    # 'move_members': True,
+    # 'change_nickname': True,
+    # 'manage_nicknames': True,
+    'manage_roles': True,
+})
+print(permissions.value)
 
 
 # replace multiple strings inside a string - used from:

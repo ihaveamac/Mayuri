@@ -14,7 +14,7 @@ class Restrictions:
     @check.is_staff()
     @commands.command(pass_context=True, description="Mute user",
                       brief="Mute a user")
-    async def mute(self, ctx, user, reason=''):
+    async def mute(self, ctx, user, *, reason=''):
         """
         Mute a user, removing their ability to send messages to channels.
 
@@ -28,28 +28,38 @@ class Restrictions:
         This restriction persists when the user leaves and re-joins, until it
         is removed with the `unmute` command.
         """
-        target = msg_util.get_user_from_mention(ctx.message.mentions, user)
-        if not target:
-            if user[0:2] == '<@':
-                await self.bot.say("This member is not in the server.")
-            elif user[0] == '@':
-                await self.bot.say("A member was not properly mentioned. Make"
-                                   "sure the target is in this server.")
-            else:
-                await self.bot.say("No member was mentioned.")
-            return
-        restrict.add_restriction(target.id, 'mute')
-        try:
-            await self.bot.send_message(
-                target,
-                "You were muted from {0.name}!"
-                "The given reason is: {1}".format(self.bot.server, reason)
-            )
+        target = await msg_util.get_user_from_mention(ctx.message.mentions,
+                                                      user)
+        await restrict.add_restriction_to_user(target, 'muted')
+        msg = "You were muted from {0.name}! ".format(self.bot.main_server)
+        if reason != "":
+            msg += "The given reason is: {0}".format(reason)
+        await self.bot.send_message(target, msg)
         await self.bot.say("{0.mention} has been muted.".format(target))
         await log.log('mod', self.bot.channels['mod-logs'], ctx=ctx,
                       target=target, action='Muted', action_message='muted',
                       user=ctx.message.author, reason=reason,
                       emoji='SPEAKER WITH CANCELLATION STROKE')
+
+    @check.is_staff()
+    @commands.command(pass_context=True, description="Unmute user",
+                      brief="Unmute a user")
+    async def unmute(self, ctx, user, *, reason=''):
+        """
+        Unmute a user, restoring their ability to send messages to channels.
+
+        This removes the role set in the config. This role should be configured
+        for every channel where users can speak. For easy setup, see the
+        `rolesetup` command.
+        """
+        target = await msg_util.get_user_from_mention(ctx.message.mentions,
+                                                      user)
+        await restrict.remove_restriction_from_user(target, 'muted')
+        await self.bot.say("{0.mention} has been unmuted.".format(target))
+        await log.log('mod', self.bot.channels['mod-logs'], ctx=ctx,
+                      target=target, action='Unuted', action_message='unmuted',
+                      user=ctx.message.author, reason=reason,
+                      emoji='SPEAKER')
 
 
 def setup(bot):
