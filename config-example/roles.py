@@ -22,7 +22,11 @@ MAIN_STAFF_ROLE = '&Staff'
 # Roles should be entered like:
 #     ('&HalfOP', True),
 #     ('196637753448857600', False),
-# TODO: explain sudo (or scrap the whole thing if audit logs have an api)
+# sudo means the user must use "sudo" to obtain the role to use extra
+#   permissions. Usage of sudo and unsudo are logged. Usually these permissions
+#   should only be actions done through the Discord interface and not commands,
+#   since command usage can be logged separately.
+# TODO: explain how sudo works with roles
 STAFF_ROLES = [
     ('&Owner', False),
     ('&SuperOP', False),
@@ -34,6 +38,10 @@ STAFF_ROLES = [
 # Role given to users to mute them.
 MUTED_ROLE = '&Muted'
 
-# No-Embed role
-# Role given to users to remove embed and upload permissions.
-NO_EMBED_ROLE = '&No-Embed'
+# No-Upload role
+# Role given to users to remove file upload permissions.
+NO_UPLOAD_ROLE = '&No-Upload'
+
+# No-Preview role
+# Role given to users to remove link previews.
+NO_PREVIEW_ROLE = '&No-Preview'

@@ -93,7 +93,6 @@ permissions.update(**{
     # 'manage_nicknames': True,
     'manage_roles': True,
 })
-print(permissions.value)
 
 
 # replace multiple strings inside a string - used from:
@@ -266,7 +265,10 @@ async def on_ready():
     bot.roles = {}
     set_key('staff', roles.MAIN_STAFF_ROLE, bot.roles, bot.main_server.roles)
     set_key('muted', roles.MUTED_ROLE, bot.roles, bot.main_server.roles)
-    set_key('no-embed', roles.NO_EMBED_ROLE, bot.roles, bot.main_server.roles)
+    set_key('no-upload', roles.NO_UPLOAD_ROLE, bot.roles,
+            bot.main_server.roles)
+    set_key('no-preview', roles.NO_PREVIEW_ROLE, bot.roles,
+            bot.main_server.roles)
     if not setting_successful:
         await self.bot.close()
         return
